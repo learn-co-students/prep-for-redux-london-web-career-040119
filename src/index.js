@@ -14,31 +14,23 @@ import { createStore } from 'redux'
 const initialState = {
   isRaining: false,
   mike: "Cheng",
-  count: 1765
+  count: 17
 }
 
 const reducer = (state = initialState, action) => {
-  console.log('State Changer is called!');
-  console.log('the current state is', state);
-  console.log('the action is', action);
-  // if (action.type === "START_RAINING") {
-  //   return {...state, isRaining: true}
-  // } else if (action.type === "INCREMENT") {
-  //   return {...state, count: state.count + 1}
-  // } else if (action.type === "DECREMENT") {
-  //   return {...state, count: state.count - 1}
-  // }
 
   switch(action.type) {
     case "INCREMENT":
       return {...state, count: state.count + 1}
     case "DECREMENT":
       return {...state, count: state.count - 1}
+    case "INCREMENT_BIG":
+      return {...state, count: state.count + 5}
+    case "INCREMENT_BIGGER":
+      return {...state, count: state.count + 10}
     default:
       return state
   }
-
-  return state
 }
 
 
@@ -53,15 +45,6 @@ store.subscribe(() => {
   console.log('the new state is', store.getState());
 })
 
-
-
-// debugger
-
-// stateTree = {counter: 0}
-// componentTree {name: App, children: [
-//   {name: Header, chidlren: [], state},
-//   {name: Counter, chidlren: [], state},
-// ]}
 
 class App extends Component {
   render() {
@@ -112,7 +95,15 @@ class Counter extends Component {
     // this.setState(prevState => ({ count: prevState.count - 1 }));
   };
 
+  incrementBig = () => {
+    store.dispatch({type: "INCREMENT_BIG"})
+    // this.setState(prevState => ({ count: prevState.count + 5 }));
+  };
 
+  incrementBigger = () => {
+    store.dispatch({type: "INCREMENT_BIGGER"})
+    // this.setState(prevState => ({ count: prevState.count + 10 }));
+  };
 
   render() {
     return (
@@ -120,8 +111,8 @@ class Counter extends Component {
         <h1>{store.getState().count}</h1>
         <button onClick={this.decrement}> - </button>
         <button onClick={this.increment}> + </button>
-        <button onClick={this.increment}> + 5 </button>
-        <button onClick={this.increment}> + 10 </button>
+        <button onClick={this.incrementBig}> + 5 </button>
+        <button onClick={this.incrementBigger}> + 10 </button>
       </div>
     );
   }
